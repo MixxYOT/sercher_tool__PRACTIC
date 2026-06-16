@@ -2,7 +2,7 @@
 from pathlib import Path
 from dataclasses import dataclass, field
 from typing import List
-from src.extractors import extract_text
+from extractors import extract_text
 
 # ====== ТИПЫ ======
 
