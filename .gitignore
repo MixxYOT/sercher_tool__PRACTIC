@@ -1,0 +1,6 @@
+__pycache__
+.venv
+dist
+docs
+req.txt
+build.txt
