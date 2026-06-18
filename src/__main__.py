@@ -12,8 +12,8 @@ from rich.progress import (
 )
 from rich.table import Table
 
-from src.cli import parse_args
-from src.searcher import FileResult, search_directory
+from cli import parse_args
+from searcher import FileResult, search_directory
 
 GREEN = '\033[32m'
 RESET = '\033[0m'
