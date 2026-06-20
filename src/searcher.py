@@ -21,7 +21,6 @@ class FileResult:
     """Результат поиска в файле"""
     filepath: Path
     matches: List[SearchMatch] = field(default_factory=list)
-    error: str = ""
     
     @property
     def found_count(self) -> int:
@@ -41,14 +40,14 @@ class FileResult:
 async def search_in_file(filepath: Path, search_term: str) -> FileResult:
     """
     Ищет строку в одном файле
-    Вызывается из основного цикла
     """
     result = FileResult(filepath=filepath)
     
     try:
         # Извлекаем текст
-        is_success, text = await asyncio.to_thread(extract_text, str(filepath))
-        
+        loop = asyncio.get_event_loop()
+        is_success, text = await loop.run_in_executor(None, extract_text, str(filepath))        
+
         if not is_success:
             print(text)
             return result
@@ -80,7 +79,7 @@ async def search_in_file(filepath: Path, search_term: str) -> FileResult:
                 result.matches.append(match)
     
     except Exception as e:
-        result.error = str(e)
+        print("\033[91m[Критическая ошибка поиска в файле '{e}': {e}]\033[0m")
     
     return result
 
