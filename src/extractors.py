@@ -247,25 +247,24 @@ def extract_text(filepath: str) -> Tuple[bool, str]:
     """
     Определяет тип файла по расширению и вызывает нужный экстрактор.
     """
-    ext = Path(filepath).suffix.lower()
+    text = Path(filepath).suffix.lower()
     filename = Path(filepath).name
     
     try:
-        match ext:
-            case '.docx':
-                return True, _extract_docx(filepath)
-            case '.pdf':
-                return True, _extract_pdf(filepath)
-            case '.doc':
-                return True, _extract_doc(filepath)
-            case '.xlsx':
-                return True, _extract_xlsx(filepath)
-            case '.odt':
-                return True, _extract_odt(filepath)
-            case '.ods':
-                return True, _extract_ods(filepath)
-            case _:
-                return _try_read_as_plain_text(filepath)
+        if text == '.docx':
+            return True, _extract_docx(filepath)
+        elif text == '.pdf':
+            return True, _extract_pdf(filepath)
+        elif text == '.doc':
+            return True, _extract_doc(filepath)
+        elif text == '.xlsx':
+            return True, _extract_xlsx(filepath)
+        elif text == '.odt':
+            return True, _extract_odt(filepath)
+        elif text == '.ods':
+            return True, _extract_ods(filepath)
+        else:
+            return _try_read_as_plain_text(filepath)
                 
     except Exception as e:
         return False, f"{RED}[Критическая ошибка обработки '{filename}': {e}]{RESET}"

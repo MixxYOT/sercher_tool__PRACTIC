@@ -1,4 +1,9 @@
-﻿import asyncio
+﻿import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+import asyncio
 from typing import Dict, List, Optional
 
 from rich.console import Console
@@ -13,7 +18,9 @@ from rich.progress import (
 from rich.table import Table
 
 from cli import parse_args
-from searcher import FileResult, search_directory
+from src.searcher import FileResult, search_directory
+
+
 
 GREEN = '\033[32m'
 RESET = '\033[0m'
