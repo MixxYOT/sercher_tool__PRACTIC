@@ -79,7 +79,7 @@ async def search_in_file(filepath: Path, search_term: str) -> FileResult:
                 result.matches.append(match)
     
     except Exception as e:
-        print("\033[91m[Критическая ошибка поиска в файле '{e}': {e}]\033[0m")
+        print(f"\033[91m[Критическая ошибка поиска в файле: {e}]\033[0m")
     
     return result
 
