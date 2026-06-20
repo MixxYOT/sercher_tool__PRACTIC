@@ -3,3 +3,5 @@ __pycache__
 dist
 docs
 build.txt
+build
+practica_searcher.spec
