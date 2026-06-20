@@ -225,7 +225,7 @@ def _try_read_as_plain_text(filepath: str) -> str:
     
     try:
         with open(filepath, 'r', encoding='utf-8') as file:
-            return file.read().strip()
+            return True, file.read().strip()
             
     except UnicodeDecodeError:
         try:
