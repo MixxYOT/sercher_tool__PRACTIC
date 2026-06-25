@@ -230,7 +230,7 @@ def _try_read_as_plain_text(filepath: str) -> str:
     except UnicodeDecodeError:
         try:
             with open(filepath, 'r', encoding='cp1251') as file:
-                return file.read().strip()
+                return True, file.read().strip()
         except UnicodeDecodeError:
             return False, f"{RED}[Не удалось прочитать '{filename}' как текст. Вероятно, это бинарный формат ({ext}), требующий специального парсера, либо файл поврежден/зашифрован.]{RESET}"
         except Exception as e:
