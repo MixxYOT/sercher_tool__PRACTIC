@@ -35,8 +35,8 @@ echo ==============================
 echo   Сборка завершена!
 echo ==============================
 echo.
-echo   Бинарник: dist\filesearch.exe
-echo   Запуск:   dist\filesearch.exe "слово" .\папка
+echo   Бинарник: dist\searcher.exe
+echo   Запуск:   dist\searcher.exe "слово" .\папка
 echo.
 
 endlocal

@@ -25,5 +25,5 @@ python -m PyInstaller build.spec --clean
 
 echo ""
 echo "✅ Готово!"
-echo "   Бинарник: dist/filesearch"
-echo "   Запуск: ./dist/filesearch \"искомое\" ./папка"
+echo "   Бинарник: dist/searcher"
+echo "   Запуск: ./dist/searcher \"искомое\" ./папка"
