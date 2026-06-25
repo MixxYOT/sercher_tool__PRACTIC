@@ -50,28 +50,12 @@ python src/__main__.py тема -d ./docs
 python src/__main__.py отчет -d /home/user/documents
 ```
 ## Сборка в исполняемый файл
-Для сборки необходимо установить используемые библиотеки в req.txt
-### 1. Установите PyInstaller
-```bash
-pip install pyinstaller
-```
-### 2. Соберите проект
-```bash
-pyinstaller build.spec
-```
-### 3. Запустите собранный файл
-##### Linux 
-```bash
-./dist/searcher <слово> -d <путь_к_папке>
-```
-##### Windows
-```powershell
-.\dist\searcher.exe <слово> -d <путь_к_папке>
-```
+Для оффлайн сборки необходимо иметь сказанное виртуальное окружение для конкретной ОС
+запустить в зависимости ОС скрипт для сборки
+- scripts/build.sh - для Linux
+- scripts/build.bat - для линукс
 
-
-
-
+!Для сборки необходимо иметь python >=3.8
 
 
 
