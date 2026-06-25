@@ -35,11 +35,11 @@ def parse_args():
         help='Расширения через запятую: .docx,.pdf,.txt (если не указано — все файлы)'
     )
     
-    # parser.add_argument(
-    #     '-i', '--ignore-case',
-    #     action='store_true',
-    #     help='Игнорировать регистр'
-    # )
+    parser.add_argument(
+        '-i', '--ignore-case',
+        action='store_true',
+        help='Игнорировать регистр'
+    )
     
     # parser.add_argument(
     #     '-o', '--output',
@@ -47,11 +47,11 @@ def parse_args():
     #     help='Сохранить результат в JSON-файл'
     # )
     
-    # parser.add_argument(
-    #     '-w', '--whole-word',
-    #     action='store_true',
-    #     help='Искать только целые слова'
-    # )
+    parser.add_argument(
+        '-w', '--whole-word',
+        action='store_true',
+        help='Искать только целые слова'
+    )
     
     args = parser.parse_args()
     

@@ -1,6 +1,7 @@
 ﻿import asyncio
 from pathlib import Path
 from dataclasses import dataclass, field
+import re
 from typing import List
 from src.extractors import extract_text
 
@@ -13,7 +14,6 @@ class SearchMatch:
     directory: str      # путь к папке
     match: str          # найденная строка
     context: str        # текст вокруг (100 символов)
-    line: str           # номер строки/параграфа/ячейки
 
 
 @dataclass
@@ -37,7 +37,12 @@ class FileResult:
 
 # ====== ПОИСК ======
 
-async def search_in_file(filepath: Path, search_term: str) -> FileResult:
+async def search_in_file(
+    filepath: Path,
+    search_term: str,
+    ignore_case: bool = False,
+    whole_word: bool = False
+    ) -> FileResult:
     """
     Ищет строку в одном файле
     """
@@ -49,32 +54,40 @@ async def search_in_file(filepath: Path, search_term: str) -> FileResult:
         is_success, text = await loop.run_in_executor(None, extract_text, str(filepath))        
 
         if not is_success:
-            print(text)
+            # print(text)
             return result
 
         if not text.strip():
             return result
         
+        
+        flags = re.IGNORECASE if ignore_case else 0
+        pattern_str = re.escape(search_term)
+        
+        if whole_word:
+            pattern_str = rf'\b{pattern_str}\b'
+        pattern = re.compile(pattern_str, flags)
+        
         # Разбиваем на строки и ищем
         lines = text.split('\n')
-        term_lower = search_term.lower()
         
         for i, line in enumerate(lines, 1):
-            if term_lower in line.lower():
+            match_obj = pattern.search(line)
+            if match_obj:
                 # Находим позицию совпадения
-                pos = line.lower().find(term_lower)
+                pos = match_obj.start()
+                match_len = match_obj.end() - pos
                 
                 # Берём контекст (±50 символов вокруг)
                 start = max(0, pos - 50)
-                end = min(len(line), pos + len(search_term) + 50)
+                end = min(len(line), pos + match_len + 50)
                 context = line[start:end].strip()
                 
                 match = SearchMatch(
                     file=filepath.name,
                     directory=str(filepath.parent),
-                    match=search_term,
+                    match=match_obj.group(),
                     context=f"...{context}..." if start > 0 or end < len(line) else context,
-                    line=str(i),
                 )
                 result.matches.append(match)
     
@@ -87,7 +100,9 @@ async def search_directory(
     root_dir: str,
     search_term: str,
     extensions: list = None,
-    progress_callback=None
+    progress_callback=None,
+    ignore_case: bool = False,
+    whole_word: bool = False
 ) -> List[FileResult]:
     """
     Асинхронный поиск по всем файлам в папке.
@@ -116,7 +131,7 @@ async def search_directory(
     total = len(files)
     
     for i, filepath in enumerate(files, 1):
-        result = await search_in_file(filepath, search_term)
+        result = await search_in_file(filepath, search_term, ignore_case, whole_word)
         results.append(result)
         
         # Отправляем прогресс в UI

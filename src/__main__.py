@@ -32,6 +32,8 @@ async def search_with_progress(
     folder: str,
     terms: List[str],
     extensions: Optional[List[str]] = None,
+    ignore_case: bool = False,
+    whole_word: bool = False
 ) -> Dict[str, List[FileResult]]:
     """
     Ищет одно или несколько слов в папке, рисуя прогресс-бар через rich.
@@ -72,6 +74,8 @@ async def search_with_progress(
                 term,
                 extensions=extensions,
                 progress_callback=make_callback(task_ids[term]),
+                ignore_case=ignore_case,
+                whole_word=whole_word,
             )
             for term in terms
         ]
@@ -110,7 +114,7 @@ def print_results_table(all_results: Dict[str, List[FileResult]]) -> None:
 
 
 async def main_cli(args):
-    """CLI-режим: поиск по аргументам и вывод результата."""
+    """CLI-режим"""
     print(f"Поиск \"{', '.join(args.pattern)}\" в {args.dir}...")
     if args.extensions:
         print(f"Расширения: {', '.join(args.extensions)}")
@@ -119,7 +123,9 @@ async def main_cli(args):
     all_results = await search_with_progress(
         folder=args.dir,
         terms=args.pattern,
-        extensions=args.extensions
+        extensions=args.extensions,
+        ignore_case=getattr(args, 'ignore_case', False),
+        whole_word=getattr(args, 'whole_word', False),
     )
     print_results_table(all_results)
     
