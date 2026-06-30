@@ -101,7 +101,7 @@ def print_results_table(all_results: Dict[str, List[FileResult]]) -> None:
             for m in r.matches:
                 total_matches += 1
                 table.add_row(
-                    r.file,
+                    r.file_name,
                     r.directory,
                     m.context[:80],
                 )
