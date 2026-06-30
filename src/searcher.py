@@ -10,8 +10,6 @@ from src.extractors import extract_text
 @dataclass
 class SearchMatch:
     """Одно совпадение в файле"""
-    file: str           # имя файла
-    directory: str      # путь к папке
     match: str          # найденная строка
     context: str        # текст вокруг (100 символов)
 
@@ -84,8 +82,6 @@ async def search_in_file(
                 context = line[start:end].strip()
                 
                 match = SearchMatch(
-                    file=filepath.name,
-                    directory=str(filepath.parent),
                     match=match_obj.group(),
                     context=f"...{context}..." if start > 0 or end < len(line) else context,
                 )

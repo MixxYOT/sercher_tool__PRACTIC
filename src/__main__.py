@@ -87,8 +87,8 @@ async def search_with_progress(
 def print_results_table(all_results: Dict[str, List[FileResult]]) -> None:
     """Печатает сводную таблицу результатов через rich."""
     table = Table(title="Результаты поиска", show_lines=False)
-    table.add_column("Слово", style="cyan", no_wrap=True)
-    table.add_column("Файл", style="magenta")
+    table.add_column("Имя файла", style="cyan", no_wrap=True)
+    table.add_column("Путь", style="magenta")
     table.add_column("Контекст", style="white")
 
     total_matches = 0
@@ -101,8 +101,8 @@ def print_results_table(all_results: Dict[str, List[FileResult]]) -> None:
             for m in r.matches:
                 total_matches += 1
                 table.add_row(
-                    m.match,
-                    m.file,
+                    r.file,
+                    r.directory,
                     m.context[:80],
                 )
 
